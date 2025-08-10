@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Email Validation API</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-envelope-check me-2"></i>
+                Email Validator API
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link active" href="/docs">Documentation</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="sticky-top" style="top: 2rem;">
+                    <div class="card bg-dark border-secondary">
+                        <div class="card-header">
+                            <h6 class="mb-0">Navigation</h6>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            <a href="#getting-started" class="list-group-item list-group-item-action bg-dark border-secondary">Getting Started</a>
+                            <a href="#authentication" class="list-group-item list-group-item-action bg-dark border-secondary">Authentication</a>
+                            <a href="#endpoints" class="list-group-item list-group-item-action bg-dark border-secondary">API Endpoints</a>
+                            <a href="#response-format" class="list-group-item list-group-item-action bg-dark border-secondary">Response Format</a>
+                            <a href="#error-codes" class="list-group-item list-group-item-action bg-dark border-secondary">Error Codes</a>
+                            <a href="#rate-limits" class="list-group-item list-group-item-action bg-dark border-secondary">Rate Limits</a>
+                            <a href="#examples" class="list-group-item list-group-item-action bg-dark border-secondary">Code Examples</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-9">
+                <div class="documentation-content">
+                    <h1 class="mb-4">Email Validation API Documentation</h1>
+                    <p class="lead">
+                        Welcome to the Email Validation API documentation. This API provides comprehensive 
+                        email validation and verification services including syntax validation, MX record checking, 
+                        disposable email detection, and domain reputation scoring.
+                    </p>
+
+                    <!-- Getting Started -->
+                    <section id="getting-started" class="mb-5">
+                        <h2>Getting Started</h2>
+                        <p>To use the Email Validation API, you'll need an API key. Sign up for a free account to get started.</p>
+                        
+                        <div class="card bg-secondary border-secondary mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Base URL</h5>
+                                <code>https://your-api.render.com/api</code>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            All API requests must be made over HTTPS. Requests made over plain HTTP will be rejected.
+                        </div>
+                    </section>
+
+                    <!-- Authentication -->
+                    <section id="authentication" class="mb-5">
+                        <h2>Authentication</h2>
+                        <p>The API uses API key authentication. Include your API key in the request headers or as a query parameter.</p>
+                        
+                        <h4>Header Authentication (Recommended)</h4>
+                        <pre class="code-block"><code>X-API-Key: your-api-key-here</code></pre>
+                        
+                        <h4>Query Parameter Authentication</h4>
+                        <pre class="code-block"><code>GET /api/validate?api_key=your-api-key-here</code></pre>
+                    </section>
+
+                    <!-- API Endpoints -->
+                    <section id="endpoints" class="mb-5">
+                        <h2>API Endpoints</h2>
+
+                        <!-- Single Email Validation -->
+                        <div class="card bg-dark border-secondary mb-4">
+                            <div class="card-header">
+                                <h4 class="mb-0">
+                                    <span class="badge bg-success me-2">POST</span>
+                                    /api/validate
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <p>Validate a single email address.</p>
+                                
+                                <h5>Request Body</h5>
+                                <pre class="code-block"><code>{
+  "email": "user@example.com"
+}</code></pre>
+
+                                <h5>Response</h5>
+                                <pre class="code-block"><code>{
+  "email": "user@example.com",
+  "is_valid": true,
+  "syntax_valid": true,
+  "domain": "example.com",
+  "mx_valid": true,
+  "is_disposable": false,
+  "is_role_account": false,
+  "domain_reputation": 0.85,
+  "errors": []
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Bulk Email Validation -->
+                        <div class="card bg-dark border-secondary mb-4">
+                            <div class="card-header">
+                                <h4 class="mb-0">
+                                    <span class="badge bg-success me-2">POST</span>
+                                    /api/validate/bulk
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <p>Validate multiple email addresses in a single request (max 100 emails).</p>
+                                
+                                <h5>Request Body</h5>
+                                <pre class="code-block"><code>{
+  "emails": [
+    "user1@example.com",
+    "user2@example.com",
+    "user3@example.com"
+  ]
+}</code></pre>
+
+                                <h5>Response</h5>
+                                <pre class="code-block"><code>{
+  "results": [
+    {
+      "email": "user1@example.com",
+      "is_valid": true,
+      "syntax_valid": true,
+      "domain": "example.com",
+      "mx_valid": true,
+      "is_disposable": false,
+      "is_role_account": false,
+      "domain_reputation": 0.85,
+      "errors": []
+    }
+  ],
+  "total_processed": 3,
+  "total_valid": 2
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Domain Reputation -->
+                        <div class="card bg-dark border-secondary mb-4">
+                            <div class="card-header">
+                                <h4 class="mb-0">
+                                    <span class="badge bg-primary me-2">GET</span>
+                                    /api/domain/reputation
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <p>Get domain reputation information.</p>
+                                
+                                <h5>Query Parameters</h5>
+                                <ul>
+                                    <li><code>domain</code> (required) - The domain to check</li>
+                                </ul>
+
+                                <h5>Example Request</h5>
+                                <pre class="code-block"><code>GET /api/domain/reputation?domain=example.com</code></pre>
+
+                                <h5>Response</h5>
+                                <pre class="code-block"><code>{
+  "domain": "example.com",
+  "reputation_score": 0.85,
+  "has_mx": true,
+  "is_disposable": false,
+  "category": "excellent"
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Usage Statistics -->
+                        <div class="card bg-dark border-secondary mb-4">
+                            <div class="card-header">
+                                <h4 class="mb-0">
+                                    <span class="badge bg-primary me-2">GET</span>
+                                    /api/stats
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <p>Get usage statistics for your API key.</p>
+
+                                <h5>Response</h5>
+                                <pre class="code-block"><code>{
+  "tier": "basic",
+  "daily_limit": 1000,
+  "requests_today": 150,
+  "remaining_today": 850,
+  "total_requests": 2450,
+  "requests_this_week": 750,
+  "created_at": "2025-08-01T10:00:00Z"
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Health Check -->
+                        <div class="card bg-dark border-secondary mb-4">
+                            <div class="card-header">
+                                <h4 class="mb-0">
+                                    <span class="badge bg-primary me-2">GET</span>
+                                    /api/health
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <p>Health check endpoint (no authentication required).</p>
+
+                                <h5>Response</h5>
+                                <pre class="code-block"><code>{
+  "status": "healthy",
+  "timestamp": "2025-08-09T12:00:00Z",
+  "version": "1.0.0"
+}</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Response Format -->
+                    <section id="response-format" class="mb-5">
+                        <h2>Response Format</h2>
+                        <p>All API responses are returned in JSON format.</p>
+
+                        <h4>Email Validation Response Fields</h4>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Field</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>email</code></td>
+                                        <td>string</td>
+                                        <td>The email address that was validated</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>is_valid</code></td>
+                                        <td>boolean</td>
+                                        <td>Overall validity of the email address</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>syntax_valid</code></td>
+                                        <td>boolean</td>
+                                        <td>Whether the email syntax is valid</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>domain</code></td>
+                                        <td>string</td>
+                                        <td>The domain part of the email address</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>mx_valid</code></td>
+                                        <td>boolean</td>
+                                        <td>Whether the domain has valid MX records</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>is_disposable</code></td>
+                                        <td>boolean</td>
+                                        <td>Whether the email is from a disposable provider</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>is_role_account</code></td>
+                                        <td>boolean</td>
+                                        <td>Whether the email is a role account (admin, support, etc.)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>domain_reputation</code></td>
+                                        <td>float</td>
+                                        <td>Domain reputation score (0.0 to 1.0)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>errors</code></td>
+                                        <td>array</td>
+                                        <td>List of validation errors (if any)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Error Codes -->
+                    <section id="error-codes" class="mb-5">
+                        <h2>Error Codes</h2>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Status Code</th>
+                                        <th>Error</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>400</td>
+                                        <td>Bad Request</td>
+                                        <td>Invalid request format or missing parameters</td>
+                                    </tr>
+                                    <tr>
+                                        <td>401</td>
+                                        <td>Unauthorized</td>
+                                        <td>Invalid or missing API key</td>
+                                    </tr>
+                                    <tr>
+                                        <td>429</td>
+                                        <td>Rate Limit Exceeded</td>
+                                        <td>Too many requests - rate limit exceeded</td>
+                                    </tr>
+                                    <tr>
+                                        <td>500</td>
+                                        <td>Internal Server Error</td>
+                                        <td>Server error - try again later</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Rate Limits -->
+                    <section id="rate-limits" class="mb-5">
+                        <h2>Rate Limits</h2>
+                        <p>Rate limits vary by subscription tier:</p>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-dark table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tier</th>
+                                        <th>Daily Limit</th>
+                                        <th>Rate Limit</th>
+                                        <th>Bulk Requests</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Free</td>
+                                        <td>100 requests/day</td>
+                                        <td>10 requests/minute</td>
+                                        <td>Not available</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Basic</td>
+                                        <td>1,000 requests/day</td>
+                                        <td>20 requests/minute</td>
+                                        <td>5 requests/minute</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Premium</td>
+                                        <td>10,000 requests/day</td>
+                                        <td>50 requests/minute</td>
+                                        <td>10 requests/minute</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Rate limits are enforced per API key. If you exceed your rate limit, you'll receive a 429 status code.
+                        </div>
+                    </section>
+
+                    <!-- Code Examples -->
+                    <section id="examples" class="mb-5">
+                        <h2>Code Examples</h2>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4>cURL</h4>
+                                <pre class="code-block"><code>curl -X POST "https://your-api.render.com/api/validate" \
+  -H "X-API-Key: your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com"}'</code></pre>
+
+                                <h4>Python</h4>
+                                <pre class="code-block"><code>import requests
+
+url = "https://your-api.render.com/api/validate"
+headers = {
+    "X-API-Key": "your-api-key",
+    "Content-Type": "application/json"
+}
+data = {"email": "user@example.com"}
+
+response = requests.post(url, json=data, headers=headers)
+result = response.json()
+print(result)</code></pre>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <h4>JavaScript</h4>
+                                <pre class="code-block"><code>const response = await fetch('https://your-api.render.com/api/validate', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'your-api-key',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    email: 'user@example.com'
+  })
+});
+
+const result = await response.json();
+console.log(result);</code></pre>
+
+                                <h4>PHP</h4>
+                                <pre class="code-block"><code>&lt;?php
+$url = 'https://your-api.render.com/api/validate';
+$data = json_encode(['email' => 'user@example.com']);
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'X-API-Key: your-api-key',
+    'Content-Type: application/json'
+]);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$result = curl_exec($ch);
+curl_close($ch);
+
+$response = json_decode($result, true);
+print_r($response);
+?&gt;</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Interactive API Tester -->
+                    <section id="api-tester" class="mb-5">
+                        <h2>Interactive API Tester</h2>
+                        <div class="card bg-secondary border-secondary">
+                            <div class="card-body">
+                                <form id="api-test-form">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="api-key" class="form-label">API Key</label>
+                                                <input type="text" class="form-control" id="api-key" 
+                                                       placeholder="Enter your API key" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="test-email" class="form-label">Email Address</label>
+                                                <input type="email" class="form-control" id="test-email" 
+                                                       placeholder="test@example.com" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-play me-2"></i>
+                                        Test API
+                                    </button>
+                                </form>
+                                
+                                <div id="api-test-result" class="mt-4" style="display: none;">
+                                    <h5>Response:</h5>
+                                    <pre id="api-test-output" class="bg-dark p-3 rounded"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2025 Email Validator API. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="/" class="text-light text-decoration-none me-3">Home</a>
+                    <a href="/docs" class="text-light text-decoration-none me-3">Documentation</a>
+                    <a href="mailto:support@emailvalidatorapi.com" class="text-light text-decoration-none">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='docs.js') }}"></script>
+</body>
+</html>

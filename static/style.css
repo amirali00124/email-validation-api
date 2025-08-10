@@ -1,0 +1,147 @@
+:root {
+    --bs-primary: #0d6efd;
+    --bs-success: #198754;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-info: #0dcaf0;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-info) 100%);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+.feature-icon {
+    padding: 1rem;
+}
+
+.code-block {
+    background-color: #1a1a1a !important;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+}
+
+.code-block code {
+    color: #e6e6e6;
+    font-family: 'Courier New', Consolas, monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.documentation-content h2 {
+    color: var(--bs-primary);
+    border-bottom: 2px solid var(--bs-primary);
+    padding-bottom: 0.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.documentation-content h4 {
+    color: var(--bs-info);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.badge {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.price {
+    font-size: 1.5rem;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 2rem;
+    z-index: 1020;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 50vh;
+        text-align: center;
+    }
+    
+    .code-block {
+        font-size: 0.8rem;
+    }
+    
+    .sticky-top {
+        position: relative;
+        top: auto;
+    }
+}
+
+/* Smooth scrolling for navigation links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for code blocks */
+.code-block::-webkit-scrollbar {
+    height: 8px;
+}
+
+.code-block::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+.code-block::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.code-block::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* API tester styling */
+#api-test-result pre {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Documentation navigation active state */
+.list-group-item-action.active {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+/* Table responsive improvements */
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Alert styling improvements */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.alert-info {
+    background-color: rgba(13, 202, 240, 0.1);
+    color: var(--bs-info);
+    border-left: 4px solid var(--bs-info);
+}
+
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: var(--bs-warning);
+    border-left: 4px solid var(--bs-warning);
+}
