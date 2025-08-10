@@ -44,7 +44,21 @@ limiter = Limiter(
 # Main routes
 @app.route('/')
 def index():
-    return render_template('index.html')
+    try:
+        return render_template('index.html')
+    except Exception as e:
+        # Fallback HTML if templates fail
+        return f'''
+        <!DOCTYPE html>
+        <html>
+        <head><title>Email Validation API</title></head>
+        <body>
+            <h1>Email Validation API</h1>
+            <p>API is running! Visit <a href="/api/health">/api/health</a> to check status.</p>
+            <p>Templates loading issue - please redeploy with updated files.</p>
+        </body>
+        </html>
+        '''
 
 @app.route('/docs')
 def docs():
@@ -90,6 +104,20 @@ with app.app_context():
     # Import models to ensure tables are created
     import models
     db.create_all()
+    
+    # Create demo API key if it doesn't exist
+    from models import APIKey
+    demo_key = APIKey.query.filter_by(key='demo-key').first()
+    if not demo_key:
+        demo_key = APIKey(
+            key='demo-key',
+            name='Demo Key',
+            tier='free',
+            is_active=True
+        )
+        db.session.add(demo_key)
+        db.session.commit()
+        app.logger.info("Created demo API key")
     
     # Start keep-alive service in production
     if not app.debug:
